@@ -23,9 +23,16 @@ function createRow(content, index) {
     `
 }
 
-function toCell(_, index) {
-    return `
-    <div class="cell" data-cell="${index}" contenteditable data-col="${index}"></div>`
+function toCell(row) {
+        return function(_, col) {
+            return `
+        <div class="cell" 
+        contenteditable 
+        data-type="cell"
+        data-col="${col}"
+        data-id="${row}:${col}"></div>
+       `
+    }
 }
 
 
@@ -45,15 +52,15 @@ export function createTable(rowsCount = 25) {
     
     rows.push(createRow(cols));
 
-    const cell = new Array(colsCount)
-        .fill('')
-        .map(toCell)
-        .join('');
+    for (let row = 0; row < rowsCount; row++){
+        const cells = new Array(colsCount)
+            .fill('')
+            // .map((_, col) => toCell(row, col))
+            .map(toCell(row))
+            .join('');
 
-    for (let i = 0; i < rowsCount; i++){
-        rows.push(createRow(cell, i + 1));
+        rows.push(createRow(cells, row + 1));
     }
-
 
     return rows.join('');
 }
