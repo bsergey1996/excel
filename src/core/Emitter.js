@@ -1,49 +1,52 @@
-export class Emitter {
-  constructor() {
-    this.listeners = {}
-  }
-
-  // dispatch, fire, trigger
-  // Уведомляем слушателе если они есть
-  // table.emit('table:select', {a: 1})
-  emit(event, ...args) {
-    if (!Array.isArray(this.listeners[event])) {
-      return false
+ export class Emitter {
+    constructor() {
+        this.listeners = {}
     }
-    this.listeners[event].forEach(listener => {
-      listener(...args)
-    })
-    return true
-  }
 
-  // on, listen
-  // Подписываемся на уведомление
-  // Добавляем нового слушателя
-  // formula.subscribe('table:select', () => {})
-  subscribe(event, fn) {
-    this.listeners[event] = this.listeners[event] || []
-    this.listeners[event].push(fn)
-    return () => {
-      this.listeners[event] =
-        this.listeners[event].filter(listener => listener !== fn)
+    // dispatch, fire, trigger
+    // Уведомляем слушаелей если они есть
+    // table.emit('table:select', {a: 1})
+    emit(event, ...args) {
+        if(!Array.isArray(this.listeners[event])){
+           return false;
+        }
+        this.listeners[event].forEach(listener => {
+            listener(...args)
+        });
+
+        return true;
     }
-  }
+
+    // on, listen
+    // Подписываемся на уведомление
+    // Добавляем нового слушателя
+    // formula.subscribe('table:select', () => {})
+    subsribe(event, fn){
+        this.listeners[event] = this.listeners[event] || [];
+        this.listeners[event].push(fn);
+        return () => {
+            this.listeners[event] =
+                this.listeners[event].filter(listener => listener !== fn)
+        }
+    }
 }
 
 // Example
-// const emitter = new Emitter()
+// const emitter = new Emitter();
 //
-// const unsub = emitter.subscribe('vladilen', data => console.log(data))
-// emitter.emit('1231231', 42)
+// const unsub = emitter.subsribe('vm',
+//         data => console.log('Sub:', data));
 //
-// setTimeout(() => {
-//   emitter.emit('vladilen', 'After 2 seconds')
-// }, 2000)
+// emitter.emit('vm', 42);
 //
 // setTimeout(() => {
-//   unsub()
-// }, 3000)
+//     emitter.emit('vm', '2 sec');
+// }, 2000);
 //
-// setTimeout(() => {
-//   emitter.emit('vladilen', 'After 4 seconds')
-// }, 4000)
+//  setTimeout(() => {
+//      unsub();
+//  }, 4000);
+//
+//  setTimeout(() => {
+//      emitter.emit('vm', '6 sec');
+//  }, 6000);
