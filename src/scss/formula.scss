@@ -2,7 +2,7 @@
 @import "mixins";
 
 
-.excel__formula{
+.excel__formula {
   position: absolute;
   left: 0;
   right: 0;
@@ -12,16 +12,15 @@
   align-items: center;
   border-bottom: 1px solid $border-color;
 
-  .info{
+  .info {
     font-size: 18px;
-    text-align: center;
     font-style: italic;
+    text-align: center;
     border-right: 1px solid $border-color;
     min-width: $info-cell-width;
-
   }
 
-  .input{
+  .input {
     padding: 4px;
     font-size: 12px;
     outline: none;
@@ -29,5 +28,4 @@
     height: 100%;
     color: #000;
   }
-
 }
